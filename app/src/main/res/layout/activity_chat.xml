@@ -6,6 +6,8 @@
     android:background="@color/chat_background"
     android:orientation="vertical">
 
+    <!-- Encabezado del chat: navegación, avatar y estado del contacto. -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,6 +70,9 @@
             android:tint="@color/text_primary" />
     </LinearLayout>
 
+    <!-- Contenedor preparado para la conversación.
+         Ya usa RecyclerView para que el equipo pueda conectar un Adapter y datos reales
+         sin modificar la estructura visual actual. -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_messages"
         android:layout_width="match_parent"
@@ -78,6 +83,7 @@
         android:paddingTop="18dp"
         android:scrollbars="none" />
 
+    <!-- Barra inferior de entrada. Actualmente es visual; no envía mensajes todavía. -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

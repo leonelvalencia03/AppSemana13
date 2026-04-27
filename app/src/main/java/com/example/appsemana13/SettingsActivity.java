@@ -13,6 +13,12 @@ import androidx.core.view.WindowInsetsCompat;
  * Activity de Ajustes (Settings).
  * Muestra las opciones de configuración de la aplicación.
  * Actualmente solo muestra la opción de Perfil.
+ *
+ * Estructura actual:
+ * - La parte superior contiene accesos de configuración.
+ * - La barra inferior replica la navegación principal de la app.
+ * - Si se agregan más módulos de ajustes, esta activity puede seguir
+ *   funcionando como menú de entrada hacia pantallas específicas.
  * 
  * Navegación:
  * - Perfil -> EditPerfilActivity (para editar perfil del usuario)
@@ -64,6 +70,9 @@ public class SettingsActivity extends AppCompatActivity {
     /**
      * Configura el listener para la opción "Perfil" en las opciones de ajustes.
      * Al hacer clic, abre EditPerfilActivity para editar el perfil.
+     *
+     * Tanto la tarjeta superior como la opción de lista llevan al mismo destino
+     * para mantener una navegación consistente desde distintos puntos de la UI.
      */
     private void setupPerfilOption() {
         // Abrir edición de perfil al presionar la tarjeta de perfil

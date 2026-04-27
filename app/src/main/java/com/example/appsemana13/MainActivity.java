@@ -14,6 +14,12 @@ import androidx.core.view.WindowInsetsCompat;
  * Activity principal (Main).
  * Muestra la lista de chats del usuario.
  * Es el punto de entrada de la aplicación.
+ *
+ * Estructura actual:
+ * - La lista visible de chats sigue siendo estática en el layout.
+ * - Esta pantalla hoy solo resuelve navegación entre vistas.
+ * - Si luego se conecta una fuente de datos real, este es el punto para
+ *   cargar la lista y vincular cada chat con su detalle.
  * 
  * Navegación:
  * - Chat individual -> ChatActivity
@@ -47,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Configura los listeners para la navegación entre pantallas.
+     *
+     * Nota para trabajo colaborativo:
+     * cada opción clicable del layout se conecta aquí para mantener
+     * separada la inicialización visual de la lógica de navegación.
      */
     private void setupNavigation() {
         // Al hacer clic en un chat, abrir ChatActivity
@@ -61,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Abre la actividad de chat para el chat seleccionado.
+     *
+     * Por ahora no se envían datos del contacto porque la UI base trabaja
+     * con contenido fijo. Cuando el proyecto maneje múltiples conversaciones,
+     * aquí se podrán pasar extras con id, nombre o avatar del chat.
+     *
      * @param view La vista que fue presionada
      */
     private void openChat(View view) {

@@ -11,6 +11,12 @@ import androidx.core.view.WindowInsetsCompat;
 /**
  * Activity de Chat individual.
  * Muestra la conversación con un contacto específico.
+ *
+ * Estructura actual:
+ * - El encabezado y la barra inferior son estáticos.
+ * - El cuerpo de la conversación ahora usa un RecyclerView como contenedor.
+ * - Todavía no existe Adapter ni fuente de datos; la pantalla queda lista
+ *   para que otro integrante conecte la lógica sin rehacer el layout.
  * 
  * Navegación:
  * - Botón atrás -> Regresa a la lista de chats (MainActivity)
@@ -43,6 +49,10 @@ public class ChatActivity extends AppCompatActivity {
 
     /**
      * Configura los listeners de navegación.
+     *
+     * Si luego se agregan acciones para menú, envío de mensajes o carga
+     * de historial, conviene mantenerlas en métodos separados para no mezclar
+     * la navegación básica con la lógica del chat.
      */
     private void setupNavigation() {
         // Botón atrás para regresar

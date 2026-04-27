@@ -22,6 +22,11 @@ import androidx.core.view.WindowInsetsCompat;
  * 
  * Esta actividad es llamada desde SettingsActivity cuando el usuario
  * selecciona la opción "Perfil".
+ *
+ * Estructura actual:
+ * - Los datos del usuario viven localmente en esta clase como base temporal.
+ * - La pantalla ya separa inicialización de vistas, listeners, carga de datos
+ *   e insets para que luego sea sencillo reemplazar datos simulados por lógica real.
  */
 public class EditPerfilActivity extends AppCompatActivity {
 
@@ -34,7 +39,9 @@ public class EditPerfilActivity extends AppCompatActivity {
     private ImageView changeAvatar;
     private LinearLayout bottomChats;
 
-    // Datos del usuario (en una app real, estos vendrían de una base de datos o API)
+    // Datos simulados usados como estado local de la pantalla.
+    // Cuando exista persistencia real, estas propiedades pueden reemplazarse
+    // por un modelo, repositorio, base de datos local o datos remotos.
     private String userName = "Andrés Morales";
     private String userStatus = "Disponible";
     private String userInitials = "AM";
@@ -97,6 +104,9 @@ public class EditPerfilActivity extends AppCompatActivity {
 
     /**
      * Carga los datos actuales del usuario en los campos de texto.
+     *
+     * Este método centraliza el pintado del estado inicial de la UI para que,
+     * si luego los datos llegan desde otra capa, solo haya que actualizar este punto.
      */
     private void loadUserData() {
         nameInput.setText(userName);
@@ -118,6 +128,9 @@ public class EditPerfilActivity extends AppCompatActivity {
     /**
      * Guarda los cambios del perfil.
      * En una app real, esto enviaría los datos a un servidor o base de datos.
+     *
+     * Por ahora actualiza el estado local de la activity para conservar una base
+     * funcional simple mientras el resto del equipo implementa persistencia real.
      */
     private void saveProfile() {
         String newName = nameInput.getText().toString().trim();
@@ -164,6 +177,9 @@ public class EditPerfilActivity extends AppCompatActivity {
 
     /**
      * Navega de vuelta a la pantalla de ajustes.
+     *
+     * Se usa una navegación explícita para mantener claro el flujo actual entre
+     * pantallas mientras el proyecto sigue siendo una base visual.
      */
     private void goBack() {
         Intent intent = new Intent(this, SettingsActivity.class);

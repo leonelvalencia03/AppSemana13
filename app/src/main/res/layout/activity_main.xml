@@ -8,6 +8,8 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <!-- Contenido principal de la pantalla: título, búsqueda y lista de chats. -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -65,6 +67,9 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
+        <!-- Lista visual de chats.
+             Por ahora es estática en XML; si más adelante se vuelve dinámica,
+             este bloque es el candidato natural para migrar a RecyclerView. -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -129,6 +134,7 @@
         </ScrollView>
     </LinearLayout>
 
+    <!-- Barra inferior de navegación compartida entre pantallas principales. -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
