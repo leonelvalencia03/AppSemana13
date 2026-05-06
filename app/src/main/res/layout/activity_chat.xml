@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/chat_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/chat_background"
+    android:contentDescription="Enviar"
     android:orientation="vertical">
 
     <!-- Encabezado del chat: navegación, avatar y estado del contacto. -->
@@ -83,34 +85,40 @@
         android:paddingTop="18dp"
         android:scrollbars="none" />
 
-    <!-- Barra inferior de entrada. Actualmente es visual; no envía mensajes todavía. -->
+    <!-- Barra inferior de entrada mejorada -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/surface_top"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
 
-        <TextView
+        <EditText
+            android:id="@+id/txtEscribirMensaje"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:background="@drawable/bg_input"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="16dp"
-            android:text="Escribe un mensaje..."
-            android:textColor="@color/text_muted"
+            android:hint="Escribe un mensaje"
+            android:inputType="textCapSentences"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_muted"
             android:textSize="16sp" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+        <ImageButton
+            android:id="@+id/btnEnviarMensaje"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="12dp"
             android:background="@drawable/bg_send_button"
-            android:contentDescription="@string/desc_send"
-            android:padding="14dp"
-            android:src="@android:drawable/ic_menu_send"
-            android:tint="@color/screen_background" />
+            android:contentDescription="Enviar mensaje"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_send"
+            app:tint="@color/chat_background" />
+
     </LinearLayout>
 </LinearLayout>
