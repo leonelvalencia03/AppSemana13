@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "146488832501",
+    "project_id": "appchatsemana13",
+    "storage_bucket": "appchatsemana13.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146488832501:android:c7c6dc03b6b3a7857970bc",
+        "android_client_info": {
+          "package_name": "com.example.appsemana13"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1dPvsMxleHXdPgFL2-pNL4rwcKcxhYfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
