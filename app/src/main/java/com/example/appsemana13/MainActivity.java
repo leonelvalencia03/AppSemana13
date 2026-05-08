@@ -10,6 +10,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 /**
  * Activity principal (Main).
  * Muestra la lista de chats del usuario.
@@ -33,10 +35,14 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Configurar insets del sistema para un correcto posicionamiento
-        setupSystemInsets();
+        // Verificar si hay un usuario autenticado
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
 
-        // Configurar listeners de navegación
+        setupSystemInsets();
         setupNavigation();
     }
 

@@ -1,8 +1,11 @@
 package com.example.appsemana13;
 
+import android.graphics.Color;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,9 +13,12 @@ import java.util.List;
 
 public class MensajesAdapter extends RecyclerView.Adapter<MensajesAdapter.ViewHolder> {
     private List<Mensaje> listaMensajes;
+    private String currentUser; // Nuevo campo
 
-    public MensajesAdapter(List<Mensaje> listaMensajes) {
+    // Constructor modificado: ahora recibe la lista y el email del usuario actual
+    public MensajesAdapter(List<Mensaje> listaMensajes, String currentUser) {
         this.listaMensajes = listaMensajes;
+        this.currentUser = currentUser;
     }
 
     @NonNull
@@ -26,6 +32,22 @@ public class MensajesAdapter extends RecyclerView.Adapter<MensajesAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Mensaje mensaje = listaMensajes.get(position);
         holder.txtMensaje.setText(mensaje.getTexto());
+
+        // Obtener los layout params para cambiar la gravedad
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.txtMensaje.getLayoutParams();
+
+        if (mensaje.getEmisor().equals(currentUser)) {
+            // Mensaje propio (outgoing): derecha, fondo azul/verde, texto blanco
+            params.gravity = Gravity.END;
+            holder.txtMensaje.setBackgroundResource(R.drawable.bg_message_outgoing);
+            holder.txtMensaje.setTextColor(Color.WHITE);
+        } else {
+            // Mensaje recibido (incoming): izquierda, fondo gris, texto negro
+            params.gravity = Gravity.START;
+            holder.txtMensaje.setBackgroundResource(R.drawable.bg_message_incoming);
+            holder.txtMensaje.setTextColor(Color.BLACK);
+        }
+        holder.txtMensaje.setLayoutParams(params);
     }
 
     @Override
