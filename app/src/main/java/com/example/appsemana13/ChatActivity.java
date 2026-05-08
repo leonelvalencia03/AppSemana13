@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,30 +13,24 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Activity de Chat individual.
- * Muestra la conversación con un contacto específico.
- */
 public class ChatActivity extends AppCompatActivity {
 
     private EditText txtEscribirMensaje;
     private ImageButton btnEnviarMensaje;
     private RecyclerView chatMessages;
-    
     private MensajesAdapter adapter;
     private List<Mensaje> listaMensajes;
-
     private DatabaseReference dataReference;
+    private String currentUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,37 +38,33 @@ public class ChatActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_chat);
 
-        // Asignar widgets
         txtEscribirMensaje = findViewById(R.id.txtEscribirMensaje);
         btnEnviarMensaje = findViewById(R.id.btnEnviarMensaje);
         chatMessages = findViewById(R.id.chat_messages);
 
-        // Referencia a Firebase
+        // Obtener usuario actual
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        currentUserEmail = auth.getCurrentUser().getEmail();
+        // Reemplazar caracteres no válidos para Firebase (opcional)
+        String safeEmail = currentUserEmail.replace(".", ",");
+
+        // Referencia a Firebase específica para este chat (por ahora todos los mensajes juntos)
         dataReference = FirebaseDatabase.getInstance().getReference("mensajes");
 
-        // Configurar RecyclerView
         listaMensajes = new ArrayList<>();
-        adapter = new MensajesAdapter(listaMensajes);
+        adapter = new MensajesAdapter(listaMensajes, currentUserEmail); // Pasamos el email
         chatMessages.setLayoutManager(new LinearLayoutManager(this));
         chatMessages.setAdapter(adapter);
 
-        // Configuración del botón de enviar
-        btnEnviarMensaje.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String texto = txtEscribirMensaje.getText().toString().trim();
-                if (!texto.isEmpty()) {
-                    // Creamos el objeto Mensaje
-                    Mensaje mensajeObj = new Mensaje(texto, "Yo");
-                    // Guardamos en Firebase
-                    dataReference.push().setValue(mensajeObj);
-                    // Limpiamos el campo
-                    txtEscribirMensaje.setText("");
-                }
+        btnEnviarMensaje.setOnClickListener(v -> {
+            String texto = txtEscribirMensaje.getText().toString().trim();
+            if (!texto.isEmpty()) {
+                Mensaje mensajeObj = new Mensaje(texto, currentUserEmail);
+                dataReference.push().setValue(mensajeObj);
+                txtEscribirMensaje.setText("");
             }
         });
 
-        // Escuchar mensajes en tiempo real
         dataReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -87,7 +76,6 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 }
                 adapter.notifyDataSetChanged();
-                // Desplazar al último mensaje
                 if (listaMensajes.size() > 0) {
                     chatMessages.scrollToPosition(listaMensajes.size() - 1);
                 }
@@ -95,7 +83,7 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("Firebase", "Error al leer datos de Firebase", error.toException());
+                Log.e("Firebase", "Error al leer mensajes", error.toException());
             }
         });
 
