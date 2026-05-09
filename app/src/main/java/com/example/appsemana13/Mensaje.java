@@ -1,5 +1,6 @@
 package com.example.appsemana13;
 public class Mensaje {
+    private String id; // Nuevo campo para identificar el mensaje en Firebase
     private String texto;
     private String emisor;
     private long timestamp;
@@ -13,6 +14,8 @@ public class Mensaje {
     }
 
     // Getters y setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public String getTexto() { return texto; }
     public void setTexto(String texto) { this.texto = texto; }
     public String getEmisor() { return emisor; }

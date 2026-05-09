@@ -1,11 +1,13 @@
 package com.example.appsemana13;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -44,14 +46,9 @@ public class ChatActivity extends AppCompatActivity {
         btnEnviarMensaje = findViewById(R.id.btnEnviarMensaje);
         chatMessages = findViewById(R.id.chat_messages);
 
-        // Obtener usuario actual
         FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUserEmail = auth.getCurrentUser().getEmail();
-        // Reemplazar caracteres no válidos para Firebase (opcional)
-        String safeEmail = currentUserEmail.replace(".", ",");
 
-        // Referencia a Firebase específica para este chat (por ahora todos los mensajes juntos)
-        //dataReference = FirebaseDatabase.getInstance().getReference("mensajes");
         String receptor = getIntent().getStringExtra("receptor_email");
         if (receptor == null) {
             if (currentUserEmail.equals(Constantes.USUARIO_1)) {
@@ -69,7 +66,15 @@ public class ChatActivity extends AppCompatActivity {
         tvHeaderAvatar.setText(receptor.substring(0, 2).toUpperCase());
 
         listaMensajes = new ArrayList<>();
-        adapter = new MensajesAdapter(listaMensajes, currentUserEmail); // Pasamos el email
+        // Pasamos una interfaz para manejar los eventos de editar y eliminar
+        adapter = new MensajesAdapter(listaMensajes, currentUserEmail, new MensajesAdapter.OnMessageClickListener() {
+            @Override
+            public void onMessageLongClick(Mensaje mensaje) {
+                if (mensaje.getEmisor().equals(currentUserEmail)) {
+                    mostrarOpcionesMensaje(mensaje);
+                }
+            }
+        });
         chatMessages.setLayoutManager(new LinearLayoutManager(this));
         chatMessages.setAdapter(adapter);
 
@@ -89,6 +94,7 @@ public class ChatActivity extends AppCompatActivity {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Mensaje m = data.getValue(Mensaje.class);
                     if (m != null) {
+                        m.setId(data.getKey()); // Guardamos el ID de Firebase
                         listaMensajes.add(m);
                     }
                 }
@@ -106,6 +112,54 @@ public class ChatActivity extends AppCompatActivity {
 
         setupSystemInsets();
         setupNavigation();
+    }
+
+    private void mostrarOpcionesMensaje(Mensaje mensaje) {
+        String[] opciones = {"Editar", "Eliminar"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Opciones de mensaje");
+        builder.setItems(opciones, (dialog, which) -> {
+            if (which == 0) {
+                mostrarDialogoEditar(mensaje);
+            } else {
+                eliminarMensaje(mensaje);
+            }
+        });
+        builder.show();
+    }
+
+    private void mostrarDialogoEditar(Mensaje mensaje) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Editar mensaje");
+
+        final EditText input = new EditText(this);
+        input.setText(mensaje.getTexto());
+        builder.setView(input);
+
+        builder.setPositiveButton("Guardar", (dialog, which) -> {
+            String nuevoTexto = input.getText().toString().trim();
+            if (!nuevoTexto.isEmpty()) {
+                editarMensaje(mensaje, nuevoTexto);
+            }
+        });
+        builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
+    private void editarMensaje(Mensaje mensaje, String nuevoTexto) {
+        if (mensaje.getId() != null) {
+            dataReference.child(mensaje.getId()).child("texto").setValue(nuevoTexto)
+                .addOnSuccessListener(aVoid -> Toast.makeText(this, "Mensaje editado", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(this, "Error al editar", Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    private void eliminarMensaje(Mensaje mensaje) {
+        if (mensaje.getId() != null) {
+            dataReference.child(mensaje.getId()).removeValue()
+                .addOnSuccessListener(aVoid -> Toast.makeText(this, "Mensaje eliminado", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(this, "Error al eliminar", Toast.LENGTH_SHORT).show());
+        }
     }
 
     private void setupSystemInsets() {
