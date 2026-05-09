@@ -13,12 +13,17 @@ import java.util.List;
 
 public class MensajesAdapter extends RecyclerView.Adapter<MensajesAdapter.ViewHolder> {
     private List<Mensaje> listaMensajes;
-    private String currentUser; // Nuevo campo
+    private String currentUser;
+    private OnMessageClickListener listener;
 
-    // Constructor modificado: ahora recibe la lista y el email del usuario actual
-    public MensajesAdapter(List<Mensaje> listaMensajes, String currentUser) {
+    public interface OnMessageClickListener {
+        void onMessageLongClick(Mensaje mensaje);
+    }
+
+    public MensajesAdapter(List<Mensaje> listaMensajes, String currentUser, OnMessageClickListener listener) {
         this.listaMensajes = listaMensajes;
         this.currentUser = currentUser;
+        this.listener = listener;
     }
 
     @NonNull
@@ -33,19 +38,16 @@ public class MensajesAdapter extends RecyclerView.Adapter<MensajesAdapter.ViewHo
         Mensaje mensaje = listaMensajes.get(position);
         holder.txtMensaje.setText(mensaje.getTexto());
 
-        // Obtener los layout params para cambiar la gravedad
         LinearLayout.LayoutParams paramsNombre = (LinearLayout.LayoutParams) holder.txtNombreEmisor.getLayoutParams();
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.txtMensaje.getLayoutParams();
 
         if (mensaje.getEmisor().equals(currentUser)) {
-            // Mensaje propio (outgoing): derecha, fondo azul/verde, texto blanco
             paramsNombre.gravity = Gravity.END;
             params.gravity = Gravity.END;
             holder.txtNombreEmisor.setVisibility(View.GONE);
             holder.txtMensaje.setBackgroundResource(R.drawable.bg_message_outgoing);
             holder.txtMensaje.setTextColor(Color.WHITE);
         } else {
-            // Mensaje recibido (incoming): izquierda, fondo gris, texto negro
             paramsNombre.gravity = Gravity.START;
             params.gravity = Gravity.START;
             holder.txtNombreEmisor.setVisibility(View.VISIBLE);
@@ -55,6 +57,13 @@ public class MensajesAdapter extends RecyclerView.Adapter<MensajesAdapter.ViewHo
         }
         holder.txtNombreEmisor.setLayoutParams(paramsNombre);
         holder.txtMensaje.setLayoutParams(params);
+
+        holder.itemView.setOnLongClickListener(v -> {
+            if (listener != null) {
+                listener.onMessageLongClick(mensaje);
+            }
+            return true;
+        });
     }
 
     @Override
