@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,7 +51,22 @@ public class ChatActivity extends AppCompatActivity {
         String safeEmail = currentUserEmail.replace(".", ",");
 
         // Referencia a Firebase específica para este chat (por ahora todos los mensajes juntos)
-        dataReference = FirebaseDatabase.getInstance().getReference("mensajes");
+        //dataReference = FirebaseDatabase.getInstance().getReference("mensajes");
+        String receptor = getIntent().getStringExtra("receptor_email");
+        if (receptor == null) {
+            if (currentUserEmail.equals(Constantes.USUARIO_1)) {
+                receptor = Constantes.USUARIO_2;
+            } else {
+                receptor = Constantes.USUARIO_1;
+            }
+        }
+        String salaId = generarSalaId(currentUserEmail, receptor);
+        dataReference = FirebaseDatabase.getInstance().getReference("mensajes").child(salaId);
+
+        TextView tvHeaderNombre = findViewById(R.id.chat_header_nombre);
+        TextView tvHeaderAvatar = findViewById(R.id.chat_header_avatar);
+        tvHeaderNombre.setText(receptor);
+        tvHeaderAvatar.setText(receptor.substring(0, 2).toUpperCase());
 
         listaMensajes = new ArrayList<>();
         adapter = new MensajesAdapter(listaMensajes, currentUserEmail); // Pasamos el email
@@ -101,5 +118,15 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setupNavigation() {
         findViewById(R.id.back_button).setOnClickListener(v -> finish());
+    }
+
+    private String generarSalaId(String email1, String email2) {
+        String e1 = email1.replace(".", ",").replace("@", "_");
+        String e2 = email2.replace(".", ",").replace("@", "_");
+        if (e1.compareTo(e2) < 0) {
+            return e1 + "_" + e2;
+        } else {
+            return e2 + "_" + e1;
+        }
     }
 }

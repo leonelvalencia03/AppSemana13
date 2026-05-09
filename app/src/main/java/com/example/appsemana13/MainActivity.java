@@ -3,6 +3,7 @@ package com.example.appsemana13;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupSystemInsets();
         setupNavigation();
+        cargarNombreReceptor();
     }
 
     /**
@@ -86,6 +88,29 @@ public class MainActivity extends AppCompatActivity {
      */
     private void openChat(View view) {
         Intent intent = new Intent(this, ChatActivity.class);
+        String currentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String receptor;
+        if (currentUser.equals(Constantes.USUARIO_1)) {
+            receptor = Constantes.USUARIO_2;
+        } else {
+            receptor = Constantes.USUARIO_1;
+        }
+        intent.putExtra("receptor_email", receptor);
         startActivity(intent);
+    }
+
+    private void cargarNombreReceptor() {
+        String currentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String receptor;
+        if (currentUser.equals(Constantes.USUARIO_1)) {
+            receptor = Constantes.USUARIO_2;
+        } else {
+            receptor = Constantes.USUARIO_1;
+        }
+        String iniciales = receptor.substring(0, 2).toUpperCase();
+        TextView tvNombre = findViewById(R.id.chat_nombre);
+        TextView tvAvatar = findViewById(R.id.chat_avatar);
+        tvNombre.setText(receptor);
+        tvAvatar.setText(iniciales);
     }
 }

@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Activity que permite al usuario editar su perfil.
@@ -42,9 +44,9 @@ public class EditPerfilActivity extends AppCompatActivity {
     // Datos simulados usados como estado local de la pantalla.
     // Cuando exista persistencia real, estas propiedades pueden reemplazarse
     // por un modelo, repositorio, base de datos local o datos remotos.
-    private String userName = "Andrés Morales";
-    private String userStatus = "Disponible";
-    private String userInitials = "AM";
+    private String userName = "";
+    private String userStatus = "";
+    private String userInitials = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +111,21 @@ public class EditPerfilActivity extends AppCompatActivity {
      * si luego los datos llegan desde otra capa, solo haya que actualizar este punto.
      */
     private void loadUserData() {
+        //nameInput.setText(userName);
+        //statusInput.setText(userStatus);
+        //avatarPreview.setText(userInitials);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Usar el email como nombre si no hay displayName
+            String nombre = user.getDisplayName();
+            if (nombre == null || nombre.isEmpty()) {
+                nombre = user.getEmail();
+            }
+            userName = nombre;
+            userStatus = "Disponible";
+            userInitials = generateInitials(userName);
+        }
         nameInput.setText(userName);
         statusInput.setText(userStatus);
         avatarPreview.setText(userInitials);
