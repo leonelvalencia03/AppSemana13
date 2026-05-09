@@ -8,6 +8,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
+import android.widget.TextView;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -20,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
         setupSystemInsets();
         setupBottomNavigation();
         setupPerfilOption();
+        cargarDatosPerfil();
         setupLogout();  // Nuevo método
     }
 
@@ -49,6 +52,24 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(this, EditPerfilActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void cargarDatosPerfil() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String nombre = user.getDisplayName();
+            if (nombre == null || nombre.isEmpty()) {
+                nombre = user.getEmail();
+            }
+            String iniciales = nombre.length() >= 2
+                    ? nombre.substring(0, 2).toUpperCase()
+                    : nombre.toUpperCase();
+
+            TextView tvNombre = findViewById(R.id.settings_nombre);
+            TextView tvAvatar = findViewById(R.id.settings_avatar);
+            tvNombre.setText(nombre);
+            tvAvatar.setText(iniciales);
+        }
     }
 
     // Nuevo método: cierre de sesión

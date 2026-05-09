@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "785729819820",
-    "project_id": "appsemana13-b3f3e",
-    "storage_bucket": "appsemana13-b3f3e.firebasestorage.app"
+    "project_number": "719441341987",
+    "project_id": "appsemana13-6d88d",
+    "storage_bucket": "appsemana13-6d88d.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:785729819820:android:ebd64c22cdda314a663b09",
+        "mobilesdk_app_id": "1:719441341987:android:73e88325aaae3ade0b8b96",
         "android_client_info": {
           "package_name": "com.example.appsemana13"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBVfHkRc2NqBlAMdeiGnf2llbvbmC6NUNk"
+          "current_key": "AIzaSyAA8ZBbeTsVLxA3mI5oWaqA5wVxKkVJJs4"
         }
       ],
       "services": {

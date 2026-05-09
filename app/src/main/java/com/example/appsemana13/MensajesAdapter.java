@@ -34,19 +34,26 @@ public class MensajesAdapter extends RecyclerView.Adapter<MensajesAdapter.ViewHo
         holder.txtMensaje.setText(mensaje.getTexto());
 
         // Obtener los layout params para cambiar la gravedad
+        LinearLayout.LayoutParams paramsNombre = (LinearLayout.LayoutParams) holder.txtNombreEmisor.getLayoutParams();
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.txtMensaje.getLayoutParams();
 
         if (mensaje.getEmisor().equals(currentUser)) {
             // Mensaje propio (outgoing): derecha, fondo azul/verde, texto blanco
+            paramsNombre.gravity = Gravity.END;
             params.gravity = Gravity.END;
+            holder.txtNombreEmisor.setVisibility(View.GONE);
             holder.txtMensaje.setBackgroundResource(R.drawable.bg_message_outgoing);
             holder.txtMensaje.setTextColor(Color.WHITE);
         } else {
             // Mensaje recibido (incoming): izquierda, fondo gris, texto negro
+            paramsNombre.gravity = Gravity.START;
             params.gravity = Gravity.START;
+            holder.txtNombreEmisor.setVisibility(View.VISIBLE);
+            holder.txtNombreEmisor.setText(mensaje.getEmisor());
             holder.txtMensaje.setBackgroundResource(R.drawable.bg_message_incoming);
             holder.txtMensaje.setTextColor(Color.BLACK);
         }
+        holder.txtNombreEmisor.setLayoutParams(paramsNombre);
         holder.txtMensaje.setLayoutParams(params);
     }
 
@@ -57,9 +64,11 @@ public class MensajesAdapter extends RecyclerView.Adapter<MensajesAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtMensaje;
+        TextView txtNombreEmisor;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtMensaje = itemView.findViewById(R.id.txtContenidoMensaje);
+            txtNombreEmisor = itemView.findViewById(R.id.txtNombreEmisor);
         }
     }
 }

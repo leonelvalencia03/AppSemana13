@@ -36,6 +36,7 @@
             android:layout_marginStart="14dp"
             android:background="@drawable/bg_avatar_gabriel"
             android:gravity="center"
+            android:id="@+id/chat_header_avatar"
             android:text="IN"
             android:textColor="@color/text_primary"
             android:textSize="16sp"
@@ -51,6 +52,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/chat_header_nombre"
                 android:text="Isaac Neftali"
                 android:textColor="@color/text_primary"
                 android:textSize="19sp"
