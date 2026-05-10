@@ -46,9 +46,13 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/btn_new_chat"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:background="@drawable/bg_auth_mark"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:text="+"
                 android:textColor="@color/chat_background"
@@ -73,108 +77,29 @@
                 android:src="@android:drawable/ic_menu_search"
                 android:tint="@color/text_muted" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="10dp"
-                android:text="Buscar conversaciones"
-                android:textColor="@color/text_muted"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Buscar conversaciones"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_muted"
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <ScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chats_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:overScrollMode="never"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/chat_camila"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_card"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:minHeight="92dp"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/chat_avatar"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_avatar_gabriel"
-                        android:gravity="center"
-                        android:text="IN"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/chat_nombre"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Isaac Neftali"
-                            android:textColor="@color/text_primary"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/chat_last_message"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="Toca para continuar la conversación"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/chat_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ahora"
-                            android:textColor="@color/text_muted"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/chat_message_count"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/bg_unread_badge"
-                            android:gravity="center"
-                            android:text="1"
-                            android:textColor="@color/chat_background"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </ScrollView>
+            android:scrollbars="none" />
     </LinearLayout>
 
     <LinearLayout
