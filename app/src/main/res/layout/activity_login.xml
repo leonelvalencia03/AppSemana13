@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:padding="32dp">
 
+    <!-- update Nestor: marca visual agregada para que login tenga identidad y no se vea como formulario plano. -->
     <TextView
         android:layout_width="72dp"
         android:layout_height="72dp"
@@ -36,6 +37,7 @@
         android:textColor="@color/text_secondary"
         android:textSize="15sp" />
 
+    <!-- update Nestor: campos estilizados con fondo oscuro y borde sutil para seguir la linea visual de la app. -->
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
@@ -72,6 +74,7 @@
         android:textColor="@android:color/white"
         android:textSize="16sp" />
 
+    <!-- update Nestor: boton secundario con borde para separar registro de la accion principal de entrar. -->
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- update Nestor: fondo de dialogo oscuro agregado para reemplazar cuadros blancos del sistema. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
     <solid android:color="@color/surface_lifted" />
     <corners android:radius="20dp" />

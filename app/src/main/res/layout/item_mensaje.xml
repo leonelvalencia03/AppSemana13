@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- update Nestor: item de mensaje ajustado para soportar burbujas alineadas, nombre del emisor y hora. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/containerMensaje"
     android:layout_width="match_parent"

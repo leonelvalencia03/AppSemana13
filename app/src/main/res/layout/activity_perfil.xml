@@ -44,6 +44,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <!-- update Nestor: avatar ampliado con accion visual de camara para mejorar la pantalla de perfil. -->
             <FrameLayout
                 android:layout_width="104dp"
                 android:layout_height="104dp">
@@ -71,6 +72,7 @@
             </FrameLayout>
         </LinearLayout>
 
+        <!-- update Nestor: formulario agrupado en tarjeta para separar datos editables del fondo principal. -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -30,6 +30,7 @@
             android:textColor="@color/text_secondary"
             android:textSize="14sp" />
 
+        <!-- update Nestor: tarjeta de perfil destacada para mostrar nombre, correo e iniciales de forma mas profesional. -->
         <LinearLayout
             android:id="@+id/profile_card"
             android:layout_width="match_parent"
@@ -98,6 +99,7 @@
             android:textSize="13sp"
             android:textStyle="bold" />
 
+        <!-- update Nestor: seccion de cuenta agrupada en tarjeta para ordenar editar perfil y cerrar sesion. -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
