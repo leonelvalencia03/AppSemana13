@@ -1,9 +1,12 @@
 package com.example.appsemana13;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
+    // update Nestor: el chat usa nombre visible del usuario y dialogos personalizados para mantener la linea visual oscura.
 
     private EditText txtEscribirMensaje;
     private ImageButton btnEnviarMensaje;
@@ -35,6 +40,7 @@ public class ChatActivity extends AppCompatActivity {
     private List<Mensaje> listaMensajes;
     private DatabaseReference dataReference;
     private String currentUserEmail;
+    private String currentUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,9 @@ public class ChatActivity extends AppCompatActivity {
         chatMessages = findViewById(R.id.chat_messages);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        currentUserEmail = auth.getCurrentUser().getEmail();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        currentUserEmail = currentUser.getEmail();
+        currentUserName = obtenerNombreUsuario(currentUser);
 
         String receptor = getIntent().getStringExtra("receptor_email");
         if (receptor == null) {
@@ -64,9 +72,10 @@ public class ChatActivity extends AppCompatActivity {
         TextView tvHeaderAvatar = findViewById(R.id.chat_header_avatar);
         tvHeaderNombre.setText(receptor);
         tvHeaderAvatar.setText(receptor.substring(0, 2).toUpperCase());
+        cargarPerfilReceptor(receptor, tvHeaderNombre, tvHeaderAvatar);
 
         listaMensajes = new ArrayList<>();
-        // Pasamos una interfaz para manejar los eventos de editar y eliminar
+        // update Nestor: se conecta el gesto de mantener presionado para editar o eliminar mensajes propios.
         adapter = new MensajesAdapter(listaMensajes, currentUserEmail, new MensajesAdapter.OnMessageClickListener() {
             @Override
             public void onMessageLongClick(Mensaje mensaje) {
@@ -81,7 +90,7 @@ public class ChatActivity extends AppCompatActivity {
         btnEnviarMensaje.setOnClickListener(v -> {
             String texto = txtEscribirMensaje.getText().toString().trim();
             if (!texto.isEmpty()) {
-                Mensaje mensajeObj = new Mensaje(texto, currentUserEmail);
+                Mensaje mensajeObj = new Mensaje(texto, currentUserEmail, currentUserName);
                 dataReference.push().setValue(mensajeObj);
                 txtEscribirMensaje.setText("");
             }
@@ -94,7 +103,7 @@ public class ChatActivity extends AppCompatActivity {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Mensaje m = data.getValue(Mensaje.class);
                     if (m != null) {
-                        m.setId(data.getKey()); // Guardamos el ID de Firebase
+                        m.setId(data.getKey()); // update Nestor: se guarda el ID de Firebase para editar o eliminar el mensaje correcto.
                         listaMensajes.add(m);
                     }
                 }
@@ -115,35 +124,40 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void mostrarOpcionesMensaje(Mensaje mensaje) {
-        String[] opciones = {"Editar", "Eliminar"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Opciones de mensaje");
-        builder.setItems(opciones, (dialog, which) -> {
-            if (which == 0) {
-                mostrarDialogoEditar(mensaje);
-            } else {
-                eliminarMensaje(mensaje);
-            }
+        // update Nestor: se reemplazo el AlertDialog blanco por un dialogo oscuro personalizado para opciones del mensaje.
+        Dialog dialog = crearDialogo(R.layout.dialog_message_options);
+
+        dialog.findViewById(R.id.dialog_edit_message).setOnClickListener(v -> {
+            dialog.dismiss();
+            mostrarDialogoEditar(mensaje);
         });
-        builder.show();
+
+        dialog.findViewById(R.id.dialog_delete_message).setOnClickListener(v -> {
+            dialog.dismiss();
+            eliminarMensaje(mensaje);
+        });
+
+        dialog.show();
     }
 
     private void mostrarDialogoEditar(Mensaje mensaje) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Editar mensaje");
-
-        final EditText input = new EditText(this);
+        // update Nestor: el editor de mensajes ahora usa un dialogo personalizado acorde al diseno de la app.
+        Dialog dialog = crearDialogo(R.layout.dialog_edit_message);
+        EditText input = dialog.findViewById(R.id.dialog_message_input);
         input.setText(mensaje.getTexto());
-        builder.setView(input);
+        input.setSelection(input.getText().length());
 
-        builder.setPositiveButton("Guardar", (dialog, which) -> {
+        dialog.findViewById(R.id.dialog_cancel_edit).setOnClickListener(v -> dialog.dismiss());
+
+        dialog.findViewById(R.id.dialog_save_edit).setOnClickListener(v -> {
             String nuevoTexto = input.getText().toString().trim();
             if (!nuevoTexto.isEmpty()) {
                 editarMensaje(mensaje, nuevoTexto);
+                dialog.dismiss();
             }
         });
-        builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.cancel());
-        builder.show();
+
+        dialog.show();
     }
 
     private void editarMensaje(Mensaje mensaje, String nuevoTexto) {
@@ -160,6 +174,18 @@ public class ChatActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> Toast.makeText(this, "Mensaje eliminado", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(this, "Error al eliminar", Toast.LENGTH_SHORT).show());
         }
+    }
+
+    private Dialog crearDialogo(int layoutResId) {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(layoutResId);
+
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        return dialog;
     }
 
     private void setupSystemInsets() {
@@ -182,5 +208,46 @@ public class ChatActivity extends AppCompatActivity {
         } else {
             return e2 + "_" + e1;
         }
+    }
+
+    private void cargarPerfilReceptor(String email, TextView tvHeaderNombre, TextView tvHeaderAvatar) {
+        FirebaseDatabase.getInstance().getReference("usuarios")
+                .child(generarKeyUsuario(email))
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String nombre = snapshot.child("nombre").getValue(String.class);
+                        if (nombre != null && !nombre.trim().isEmpty()) {
+                            tvHeaderNombre.setText(nombre);
+                            tvHeaderAvatar.setText(generarIniciales(nombre));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+    }
+
+    private String obtenerNombreUsuario(FirebaseUser user) {
+        if (user != null && user.getDisplayName() != null && !user.getDisplayName().trim().isEmpty()) {
+            return user.getDisplayName();
+        }
+        return currentUserEmail;
+    }
+
+    private String generarKeyUsuario(String email) {
+        return email.replace(".", ",").replace("@", "_");
+    }
+
+    private String generarIniciales(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            return "US";
+        }
+        String[] palabras = nombre.trim().split("\\s+");
+        if (palabras.length >= 2) {
+            return (palabras[0].charAt(0) + "" + palabras[1].charAt(0)).toUpperCase();
+        }
+        return palabras[0].substring(0, Math.min(2, palabras[0].length())).toUpperCase();
     }
 }

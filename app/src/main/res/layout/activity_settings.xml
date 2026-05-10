@@ -6,45 +6,51 @@
     android:background="@color/screen_background"
     android:orientation="vertical">
 
-    <!-- Contenido principal de ajustes: encabezado, resumen de perfil y opciones. -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingTop="18dp">
+        android:paddingTop="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ajustes"
             android:textColor="@color/text_primary"
-            android:textSize="22sp"
+            android:textSize="26sp"
             android:textStyle="bold" />
 
-        <!-- Tarjeta resumen del perfil actual. -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Cuenta y preferencias"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <!-- update Nestor: tarjeta de perfil destacada para mostrar nombre, correo e iniciales de forma mas profesional. -->
         <LinearLayout
             android:id="@+id/profile_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="22dp"
             android:background="@drawable/bg_card"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:minHeight="104dp"
+            android:minHeight="108dp"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="18dp">
 
             <TextView
-                android:layout_width="62dp"
-                android:layout_height="62dp"
+                android:id="@+id/settings_avatar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:background="@drawable/bg_avatar_gabriel"
                 android:gravity="center"
-                android:id="@+id/settings_avatar"
                 android:text="AM"
                 android:textColor="@color/text_primary"
                 android:textSize="20sp"
@@ -58,9 +64,9 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/settings_nombre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/settings_nombre"
                     android:text="Andrés Morales"
                     android:textColor="@color/text_primary"
                     android:textSize="20sp"
@@ -69,10 +75,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Disponible"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/settings_email"
+                    android:text="correo@ejemplo.com"
                     android:textColor="@color/accent"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <ImageView
@@ -83,58 +90,27 @@
                 android:tint="@color/text_muted" />
         </LinearLayout>
 
-        <!-- Después del bloque de perfil y de la línea divisoria existente -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Cuenta"
+            android:textColor="@color/text_muted"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/logout_option"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="16dp">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:contentDescription="Cerrar sesión"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
-                android:tint="@color/text_secondary" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:text="Cerrar sesión"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@android:drawable/ic_media_next"
-                android:tint="@color/text_muted" />
-        </LinearLayout>
-
-        <!-- Contenedor de opciones de configuración. -->
+        <!-- update Nestor: seccion de cuenta agrupada en tarjeta para ordenar editar perfil y cerrar sesion. -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_card"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/profile_option"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="62dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
@@ -154,9 +130,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    android:text="Perfil"
+                    android:text="Editar perfil"
                     android:textColor="@color/text_primary"
-                    android:textSize="18sp" />
+                    android:textSize="17sp" />
 
                 <ImageView
                     android:layout_width="18dp"
@@ -170,10 +146,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/divider" />
+
+            <LinearLayout
+                android:id="@+id/logout_option"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="Cerrar sesión"
+                    android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    android:tint="@color/danger" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="Cerrar sesión"
+                    android:textColor="@color/danger"
+                    android:textSize="17sp" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Barra inferior de navegación compartida con el resto de la app. -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"

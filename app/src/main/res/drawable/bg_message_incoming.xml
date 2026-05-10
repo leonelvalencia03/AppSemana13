@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- update Nestor: burbuja entrante cambiada a color oscuro para mantener consistencia con el chat. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#E4E6EB" />
+    <solid android:color="@color/message_incoming" />
     <corners android:radius="20dp" />
 </shape>

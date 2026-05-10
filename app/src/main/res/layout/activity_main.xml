@@ -8,15 +8,13 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!-- Contenido principal de la pantalla: título, búsqueda y lista de chats. -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingTop="18dp">
+        android:paddingTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,32 +22,54 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Chats"
-                android:textColor="@color/text_primary"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:contentDescription="@string/desc_new_chat"
-                android:src="@android:drawable/ic_menu_edit"
-                android:tint="@color/accent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chats"
+                    android:textColor="@color/text_primary"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Tus conversaciones recientes"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- update Nestor: boton agregado para abrir el flujo de busqueda de usuarios por correo. -->
+            <TextView
+                android:id="@+id/btn_new_chat"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/bg_auth_mark"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/chat_background"
+                android:textSize="24sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_search"
             android:gravity="center_vertical"
-            android:minHeight="48dp"
+            android:minHeight="50dp"
             android:orientation="horizontal"
-            android:paddingHorizontal="14dp">
+            android:paddingHorizontal="16dp">
 
             <ImageView
                 android:layout_width="18dp"
@@ -58,85 +78,33 @@
                 android:src="@android:drawable/ic_menu_search"
                 android:tint="@color/text_muted" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <!-- update Nestor: buscador convertido en campo editable para filtrar conversaciones en tiempo real. -->
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="10dp"
-                android:text="Buscar"
-                android:textColor="@color/text_muted"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Buscar conversaciones"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_muted"
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <!-- Lista visual de chats.
-             Por ahora es estática en XML; si más adelante se vuelve dinámica,
-             este bloque es el candidato natural para migrar a RecyclerView. -->
-        <ScrollView
+        <!-- update Nestor: lista dinamica de chats reemplaza la tarjeta estatica anterior. -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chats_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:overScrollMode="never"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/chat_camila"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_card"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:minHeight="86dp"
-                    android:orientation="horizontal"
-                    android:padding="14dp">
-
-                    <TextView
-                        android:layout_width="54dp"
-                        android:layout_height="54dp"
-                        android:background="@drawable/bg_avatar_gabriel"
-                        android:gravity="center"
-                        android:id="@+id/chat_avatar"
-                        android:text="IN"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/chat_nombre"
-                            android:text="Isaac Neftali"
-                            android:textColor="@color/text_primary"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Sin mensajes"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </ScrollView>
+            android:scrollbars="none" />
     </LinearLayout>
 
-    <!-- Barra inferior de navegación compartida entre pantallas principales. -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"

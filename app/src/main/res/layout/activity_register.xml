@@ -7,15 +7,51 @@
     android:orientation="vertical"
     android:padding="32dp">
 
+    <!-- update Nestor: marca visual agregada para mantener consistencia entre login y registro. -->
+    <TextView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_auth_mark"
+        android:gravity="center"
+        android:text="AS"
+        android:textColor="@color/chat_background"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
         android:text="Crear cuenta"
         android:textColor="@color/text_primary"
         android:textSize="28sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="36dp"
+        android:gravity="center"
+        android:text="Crea tu acceso y empieza a chatear al instante."
+        android:textColor="@color/text_secondary"
+        android:textSize="15sp" />
+
+    <!-- update Nestor: campo agregado para separar nombre visible del correo usado para iniciar sesion. -->
+    <EditText
+        android:id="@+id/etNombre"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_input"
+        android:hint="Nombre de usuario"
+        android:inputType="textPersonName"
+        android:paddingHorizontal="20dp"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_muted"
+        android:textSize="16sp" />
+
+    <!-- update Nestor: campos de autenticacion mantienen el mismo estilo visual del resto de la app. -->
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
