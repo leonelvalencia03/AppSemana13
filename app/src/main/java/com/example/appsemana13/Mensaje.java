@@ -1,8 +1,9 @@
 package com.example.appsemana13;
 public class Mensaje {
-    private String id; // Nuevo campo para identificar el mensaje en Firebase
+    private String id; // update Nestor: campo usado para identificar el mensaje en Firebase al editar o eliminar.
     private String texto;
     private String emisor;
+    // update Nestor: nombre visible separado del correo para mostrar remitentes sin exponer el login.
     private String nombreEmisor;
     private long timestamp;
 
@@ -21,7 +22,7 @@ public class Mensaje {
         this.timestamp = System.currentTimeMillis();
     }
 
-    // Getters y setters
+    // update Nestor: getters y setters necesarios para que Firebase serialice y lea el modelo completo.
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     public String getTexto() { return texto; }

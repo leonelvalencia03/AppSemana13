@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
+    // update Nestor: el chat usa nombre visible del usuario y dialogos personalizados para mantener la linea visual oscura.
 
     private EditText txtEscribirMensaje;
     private ImageButton btnEnviarMensaje;
@@ -74,7 +75,7 @@ public class ChatActivity extends AppCompatActivity {
         cargarPerfilReceptor(receptor, tvHeaderNombre, tvHeaderAvatar);
 
         listaMensajes = new ArrayList<>();
-        // Pasamos una interfaz para manejar los eventos de editar y eliminar
+        // update Nestor: se conecta el gesto de mantener presionado para editar o eliminar mensajes propios.
         adapter = new MensajesAdapter(listaMensajes, currentUserEmail, new MensajesAdapter.OnMessageClickListener() {
             @Override
             public void onMessageLongClick(Mensaje mensaje) {
@@ -102,7 +103,7 @@ public class ChatActivity extends AppCompatActivity {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Mensaje m = data.getValue(Mensaje.class);
                     if (m != null) {
-                        m.setId(data.getKey()); // Guardamos el ID de Firebase
+                        m.setId(data.getKey()); // update Nestor: se guarda el ID de Firebase para editar o eliminar el mensaje correcto.
                         listaMensajes.add(m);
                     }
                 }
@@ -123,6 +124,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void mostrarOpcionesMensaje(Mensaje mensaje) {
+        // update Nestor: se reemplazo el AlertDialog blanco por un dialogo oscuro personalizado para opciones del mensaje.
         Dialog dialog = crearDialogo(R.layout.dialog_message_options);
 
         dialog.findViewById(R.id.dialog_edit_message).setOnClickListener(v -> {
@@ -139,6 +141,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void mostrarDialogoEditar(Mensaje mensaje) {
+        // update Nestor: el editor de mensajes ahora usa un dialogo personalizado acorde al diseno de la app.
         Dialog dialog = crearDialogo(R.layout.dialog_edit_message);
         EditText input = dialog.findViewById(R.id.dialog_message_input);
         input.setText(mensaje.getTexto());

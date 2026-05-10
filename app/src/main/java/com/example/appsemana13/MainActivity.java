@@ -36,6 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    // update Nestor: la pantalla principal ahora administra chats dinamicos en memoria para poder filtrar y actualizar la lista.
     private ChatsAdapter adapter;
     private final Map<String, ChatResumen> chatsPorCorreo = new LinkedHashMap<>();
     private DatabaseReference database;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupRecycler() {
+        // update Nestor: se reemplazo la tarjeta fija por un RecyclerView para mostrar multiples conversaciones.
         RecyclerView recyclerView = findViewById(R.id.chats_recycler);
         adapter = new ChatsAdapter(this::openChat);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupSearch() {
+        // update Nestor: el buscador ahora filtra chats por nombre, correo o ultimo mensaje mientras el usuario escribe.
         EditText searchInput = findViewById(R.id.search_input);
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarChats() {
+        // update Nestor: los chats se cargan desde Firebase usando la lista guardada en el perfil del usuario actual.
         database.child("usuarios")
                 .child(generarKeyUsuario(currentUserEmail))
                 .child("chats")
@@ -127,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void asegurarChatInicialSiHaceFalta() {
+        // update Nestor: se conserva un chat inicial de respaldo para que la app siga funcionando si aun no hay chats guardados.
         if (!chatsPorCorreo.isEmpty()) {
             return;
         }
@@ -162,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarResumenMensajes(ChatResumen chat) {
+        // update Nestor: cada tarjeta escucha su sala de mensajes para mostrar contador, ultimo mensaje y hora reales.
         String salaId = generarSalaId(currentUserEmail, chat.getCorreo());
         database.child("mensajes")
                 .child(salaId)
@@ -198,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void mostrarDialogoNuevoChat() {
+        // update Nestor: el boton + abre un dialogo oscuro para buscar usuarios existentes por correo.
         Dialog dialog = crearDialogo(R.layout.dialog_new_chat);
         EditText input = dialog.findViewById(R.id.dialog_email_input);
 
@@ -219,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void buscarUsuarioParaChat(String correo, Dialog dialog) {
+        // update Nestor: antes de crear un chat se valida que el correo exista como usuario registrado en Firebase.
         database.child("usuarios")
                 .child(generarKeyUsuario(correo))
                 .addListenerForSingleValueEvent(new ValueEventListener() {

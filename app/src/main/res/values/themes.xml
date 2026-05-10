@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- update Nestor: tema base de la aplicacion usado por las pantallas sin ActionBar. -->
     <style name="Base.Theme.AppSemana13" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- update Nestor: espacio reservado para ajustes futuros de color primario. -->
+        <!-- update Nestor: ejemplo desactivado de color primario para evitar cambios visuales no usados. -->
     </style>
 
     <style name="Theme.AppSemana13" parent="Base.Theme.AppSemana13" />

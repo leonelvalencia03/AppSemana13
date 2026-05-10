@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EditPerfilActivity extends AppCompatActivity {
+    // update Nestor: el perfil separa nombre visible, correo de inicio de sesion y estado del usuario.
     private TextView avatarPreview;
     private EditText emailInput;
     private EditText nameInput;
@@ -80,6 +81,7 @@ public class EditPerfilActivity extends AppCompatActivity {
     }
 
     private void loadUserData() {
+        // update Nestor: se cargan datos desde Firebase Auth y Realtime Database para mantener el perfil persistente.
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null || user.getEmail() == null) {
             return;
@@ -131,6 +133,7 @@ public class EditPerfilActivity extends AppCompatActivity {
     }
 
     private void saveProfile() {
+        // update Nestor: guardar perfil ahora valida nombre, correo y estado antes de sincronizar con Firebase.
         String newName = nameInput.getText().toString().trim();
         String newEmail = emailInput.getText().toString().trim();
         String newStatus = statusInput.getText().toString().trim();
@@ -166,6 +169,7 @@ public class EditPerfilActivity extends AppCompatActivity {
             String newName,
             String newStatus
     ) {
+        // update Nestor: al cambiar correo se muestra confirmacion con el correo actual y el nuevo antes de aplicar el cambio.
         new AlertDialog.Builder(this)
                 .setTitle("Confirmar cambio de correo")
                 .setMessage("¿Quieres cambiar tu correo de inicio de sesión de:\n\n"
@@ -199,6 +203,7 @@ public class EditPerfilActivity extends AppCompatActivity {
     }
 
     private void guardarPerfilEnDatabase(String oldEmail, String newEmail, String nombre, String estado) {
+        // update Nestor: el perfil se guarda bajo la clave del nuevo correo y se limpia la clave anterior si cambio.
         Map<String, Object> perfil = new HashMap<>();
         perfil.put("nombre", nombre);
         perfil.put("correo", newEmail);

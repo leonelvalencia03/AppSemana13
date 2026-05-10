@@ -1,6 +1,7 @@
 package com.example.appsemana13;
 
 public class ChatResumen {
+    // update Nestor: modelo agregado para centralizar los datos que necesita cada tarjeta de chat.
     private String correo;
     private String nombre;
     private String ultimoMensaje = "Sin mensajes todavía";

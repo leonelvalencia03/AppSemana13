@@ -45,6 +45,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
+            <!-- update Nestor: boton agregado para abrir el flujo de busqueda de usuarios por correo. -->
             <TextView
                 android:id="@+id/btn_new_chat"
                 android:layout_width="42dp"
@@ -77,6 +78,7 @@
                 android:src="@android:drawable/ic_menu_search"
                 android:tint="@color/text_muted" />
 
+            <!-- update Nestor: buscador convertido en campo editable para filtrar conversaciones en tiempo real. -->
             <EditText
                 android:id="@+id/search_input"
                 android:layout_width="0dp"
@@ -92,6 +94,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
+        <!-- update Nestor: lista dinamica de chats reemplaza la tarjeta estatica anterior. -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chats_recycler"
             android:layout_width="match_parent"

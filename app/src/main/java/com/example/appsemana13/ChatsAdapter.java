@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> {
+    // update Nestor: adapter creado para renderizar y filtrar conversaciones dinamicas en la pantalla principal.
     public interface OnChatClickListener {
         void onChatClick(ChatResumen chat);
     }
@@ -71,6 +72,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     }
 
     public void filtrar(String texto) {
+        // update Nestor: el filtro busca coincidencias en nombre, correo y ultimo mensaje visible.
         query = texto == null ? "" : texto.trim().toLowerCase(Locale.ROOT);
         chatsFiltrados.clear();
 
