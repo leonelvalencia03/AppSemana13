@@ -6,12 +6,20 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Activity principal (Main).
@@ -112,5 +120,92 @@ public class MainActivity extends AppCompatActivity {
         TextView tvAvatar = findViewById(R.id.chat_avatar);
         tvNombre.setText(receptor);
         tvAvatar.setText(iniciales);
+        cargarContadorMensajes(currentUser, receptor);
+
+        FirebaseDatabase.getInstance().getReference("usuarios")
+                .child(generarKeyUsuario(receptor))
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String nombre = snapshot.child("nombre").getValue(String.class);
+                        if (nombre != null && !nombre.trim().isEmpty()) {
+                            tvNombre.setText(nombre);
+                            tvAvatar.setText(generarIniciales(nombre));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+    }
+
+    private void cargarContadorMensajes(String currentUser, String receptor) {
+        TextView tvContador = findViewById(R.id.chat_message_count);
+        TextView tvUltimoMensaje = findViewById(R.id.chat_last_message);
+        TextView tvHora = findViewById(R.id.chat_time);
+        String salaId = generarSalaId(currentUser, receptor);
+
+        FirebaseDatabase.getInstance().getReference("mensajes")
+                .child(salaId)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        long total = snapshot.getChildrenCount();
+                        if (total <= 0) {
+                            tvContador.setVisibility(View.GONE);
+                            tvUltimoMensaje.setText("Sin mensajes todavía");
+                            tvHora.setText("");
+                            return;
+                        }
+
+                        Mensaje ultimoMensaje = null;
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            ultimoMensaje = data.getValue(Mensaje.class);
+                        }
+
+                        tvContador.setVisibility(View.VISIBLE);
+                        tvContador.setText(total > 99 ? "99+" : String.valueOf(total));
+                        if (ultimoMensaje != null) {
+                            tvUltimoMensaje.setText(ultimoMensaje.getTexto());
+                            tvHora.setText(formatHora(ultimoMensaje.getTimestamp()));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+    }
+
+    private String generarSalaId(String email1, String email2) {
+        String e1 = email1.replace(".", ",").replace("@", "_");
+        String e2 = email2.replace(".", ",").replace("@", "_");
+        if (e1.compareTo(e2) < 0) {
+            return e1 + "_" + e2;
+        }
+        return e2 + "_" + e1;
+    }
+
+    private String formatHora(long timestamp) {
+        if (timestamp <= 0) {
+            return "";
+        }
+        return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date(timestamp));
+    }
+
+    private String generarKeyUsuario(String email) {
+        return email.replace(".", ",").replace("@", "_");
+    }
+
+    private String generarIniciales(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            return "US";
+        }
+        String[] palabras = nombre.trim().split("\\s+");
+        if (palabras.length >= 2) {
+            return (palabras[0].charAt(0) + "" + palabras[1].charAt(0)).toUpperCase();
+        }
+        return palabras[0].substring(0, Math.min(2, palabras[0].length())).toUpperCase();
     }
 }

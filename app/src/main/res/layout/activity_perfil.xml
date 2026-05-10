@@ -6,15 +6,13 @@
     android:background="@color/screen_background"
     android:orientation="vertical">
 
-    <!-- Contenido editable del perfil: cabecera, avatar y formulario. -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingTop="18dp">
+        android:paddingTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,28 +31,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Editar Perfil"
+                android:text="Editar perfil"
                 android:textColor="@color/text_primary"
-                android:textSize="22sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <!-- Vista compuesta del avatar con acción secundaria para cambiar foto. -->
             <FrameLayout
-                android:layout_width="100dp"
-                android:layout_height="100dp">
+                android:layout_width="104dp"
+                android:layout_height="104dp">
 
                 <TextView
                     android:id="@+id/avatar_preview"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="104dp"
+                    android:layout_height="104dp"
                     android:background="@drawable/bg_avatar_gabriel"
                     android:gravity="center"
                     android:text="AM"
@@ -64,22 +61,23 @@
 
                 <ImageView
                     android:id="@+id/change_avatar"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     android:layout_gravity="bottom|end"
                     android:background="@drawable/bg_badge"
-                    android:padding="6dp"
+                    android:padding="7dp"
                     android:src="@android:drawable/ic_menu_camera"
                     android:tint="@android:color/white" />
             </FrameLayout>
         </LinearLayout>
 
-        <!-- Campo de edición para el nombre del usuario. -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:orientation="vertical">
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,18 +98,32 @@
                 android:textColor="@color/text_primary"
                 android:textColorHint="@color/text_muted"
                 android:textSize="16sp" />
-        </LinearLayout>
-
-        <!-- Campo de edición para el estado del usuario. -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Correo"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/email_input"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:hint="Correo electrónico"
+                android:inputType="textEmailAddress"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_muted"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
                 android:text="Estado"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
@@ -134,14 +146,13 @@
             android:id="@+id/save_button"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:backgroundTint="@color/accent"
             android:text="Guardar"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
     </LinearLayout>
 
-    <!-- Barra inferior de navegación compartida con la sección de ajustes. -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"

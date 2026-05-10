@@ -8,15 +8,13 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!-- Contenido principal de la pantalla: título, búsqueda y lista de chats. -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingTop="18dp">
+        android:paddingTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,32 +22,49 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Chats"
-                android:textColor="@color/text_primary"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:contentDescription="@string/desc_new_chat"
-                android:src="@android:drawable/ic_menu_edit"
-                android:tint="@color/accent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chats"
+                    android:textColor="@color/text_primary"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Tus conversaciones recientes"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/bg_auth_mark"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/chat_background"
+                android:textSize="24sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_search"
             android:gravity="center_vertical"
-            android:minHeight="48dp"
+            android:minHeight="50dp"
             android:orientation="horizontal"
-            android:paddingHorizontal="14dp">
+            android:paddingHorizontal="16dp">
 
             <ImageView
                 android:layout_width="18dp"
@@ -62,14 +77,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="Buscar"
+                android:text="Buscar conversaciones"
                 android:textColor="@color/text_muted"
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <!-- Lista visual de chats.
-             Por ahora es estática en XML; si más adelante se vuelve dinámica,
-             este bloque es el candidato natural para migrar a RecyclerView. -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -92,16 +104,16 @@
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:minHeight="86dp"
+                    android:minHeight="92dp"
                     android:orientation="horizontal"
-                    android:padding="14dp">
+                    android:padding="16dp">
 
                     <TextView
-                        android:layout_width="54dp"
-                        android:layout_height="54dp"
+                        android:id="@+id/chat_avatar"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
                         android:background="@drawable/bg_avatar_gabriel"
                         android:gravity="center"
-                        android:id="@+id/chat_avatar"
                         android:text="IN"
                         android:textColor="@color/text_primary"
                         android:textSize="18sp"
@@ -115,28 +127,56 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/chat_nombre"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/chat_nombre"
                             android:text="Isaac Neftali"
                             android:textColor="@color/text_primary"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/chat_last_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Sin mensajes"
+                            android:layout_marginTop="5dp"
+                            android:text="Toca para continuar la conversación"
                             android:textColor="@color/text_secondary"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/chat_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ahora"
+                            android:textColor="@color/text_muted"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/chat_message_count"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_unread_badge"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textColor="@color/chat_background"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
 
-    <!-- Barra inferior de navegación compartida entre pantallas principales. -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"

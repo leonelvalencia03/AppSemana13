@@ -8,13 +8,33 @@
     android:padding="32dp">
 
     <TextView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_auth_mark"
+        android:gravity="center"
+        android:text="AS"
+        android:textColor="@color/chat_background"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:text="Iniciar Sesión"
+        android:text="Iniciar sesión"
         android:textColor="@color/text_primary"
         android:textSize="28sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="36dp"
+        android:gravity="center"
+        android:text="Continúa tu conversación de forma rápida y segura."
+        android:textColor="@color/text_secondary"
+        android:textSize="15sp" />
 
     <EditText
         android:id="@+id/etEmail"
@@ -56,6 +76,7 @@
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="@drawable/bg_outline_button"
         android:backgroundTint="@android:color/transparent"
         android:text="Registrarse"
         android:textColor="@color/accent"
